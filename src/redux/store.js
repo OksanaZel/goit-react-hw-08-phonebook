@@ -10,7 +10,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import contactReducer from "./contacts/PhoneBook-slice";
+import contactReducer from "./contacts/phoneBook-reducer";
 import authReducer from "./auth/auth-slice";
 
 const authPersistConfig = {
