@@ -1,42 +1,49 @@
 import React from "react";
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Switch} from 'react-router-dom';
+import PrivateRoute from '../PrivateRoute';
+import PublicRoute from '../PublicRoute';
 import './App.styled.jsx';
 import AppBar from "../AppBar";
 import { Container } from "./App.styled";
-import HomeView from "../../views/HomeView";
-import RegisterView from "../../views/RegisterView";
-import LoginView from "../../views/LoginView";
+import HomeView from "views/HomeView";
+import RegisterView from "views/RegisterView";
+import LoginView from "views/LoginView";
 import ContactsView from "views/ContactsView";
-import {authOperations} from "redux/auth";
+import {authOperations, authSelectors} from "redux/auth";
 
 function App() {
   const dispatch = useDispatch();
+  const isRefreshingCurrentUser = useSelector(authSelectors.getIsRefreshingCurrentUser);
   
   useEffect(() => {
     dispatch(authOperations.fetchCurrentUser());
   }, [dispatch])
   
   return (
-    <Container>
+    !isRefreshingCurrentUser && (
+      <Container>
       <AppBar />
-
       <Switch>
-        <Route exact path="/">
+        <PublicRoute exact path="/">
           <HomeView />
-        </Route>
-        <Route path="/registration">
+        </PublicRoute>
+
+        <PublicRoute path="/registration" restricted>
             <RegisterView />
-        </Route>
-        <Route path="/login">
+        </PublicRoute>
+
+        <PublicRoute path="/login" redirectTo="/contacts" restricted>
           <LoginView />
-        </Route>
-        <Route path="/contacts">
+        </PublicRoute>
+
+        <PrivateRoute path="/contacts" redirectTo="/login">
           <ContactsView />
-        </Route>
+        </PrivateRoute>
       </Switch>
-    </Container>
+    </Container>)
+    
   )
 }
 

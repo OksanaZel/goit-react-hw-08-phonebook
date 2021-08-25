@@ -8,7 +8,7 @@ function UserMenu() {
 
     return (
         <>
-            <span>Welcome back, {name}</span>
+            <span>Welcome, {name}</span>
             <button type='button' onClick={()=> dispatch(authOperations.userLogOut())}>LogOut</button>
         </>
     )

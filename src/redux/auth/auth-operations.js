@@ -50,7 +50,6 @@ export const fetchCurrentUser = createAsyncThunk(
     "users/current", async (_, { getState, rejectWithValue }) => {
         const state = getState();
         const persistedtToken = state.auth.token;
-        console.log(persistedtToken);
             
         if (persistedtToken === null) {
            return rejectWithValue();

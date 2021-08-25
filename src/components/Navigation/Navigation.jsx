@@ -1,23 +1,21 @@
 import React from "react";
+import { useSelector } from 'react-redux';
+import { authSelectors } from 'redux/auth';
 import { Link } from "./Navigation.styled";
 
 
 function Navigation() {
+    const isLoggedIn = useSelector(authSelectors.getIsLoggedIn)
     return (
         <nav>
-            <Link
-                exact
-                to="/"
-            >
+            <Link exact to="/">
                 Home
             </Link>
 
-            <Link
-                to="/contacts"
-            >
+            {isLoggedIn &&
+            <Link to="/contacts">
                 Contacts
-            </Link>
-
+            </Link>}
         </nav>
     )
 }
